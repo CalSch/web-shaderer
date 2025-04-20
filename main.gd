@@ -12,6 +12,7 @@ var uniforms: Array[BaseUniform] = []
 @onready var editors_node = $VBoxContainer/HSplitContainer/PanelContainer/VBoxContainer/Editors
 @onready var uniforms_node = $VBoxContainer/HSplitContainer/PanelContainer2/VSplitContainer/VBoxContainer/Uniforms
 
+@export var base_image: Image
 
 func update_pass_viewports():
 	print("updating viewports")
@@ -19,7 +20,7 @@ func update_pass_viewports():
 		$Viewports.remove_child(ch)
 	viewports = []
 	var base: ShaderPassViewport = shader_pass_viewport.instantiate()
-	base.set_texture(ImageTexture.create_from_image(Image.load_from_file("res://fatguy4k.jpg")))
+	base.set_texture(ImageTexture.create_from_image(base_image))
 	base.name = "BaseVP"
 	viewports.append(base)
 	$Viewports.add_child(base)
@@ -109,39 +110,39 @@ func update_uniforms():
 			
 
 func _ready() -> void:
-	project = Project.load_from_file("user://default.project")
-	#project.passes.append(ShaderPass.new())
-	#project.passes.append(ShaderPass.new())
-	#project.passes[0].pass_name = "Default"
-	#project.passes[0].shader.code = """
-#shader_type canvas_item;
-#
-#uniform float fThing;
-#uniform vec4 cThing;
-#
-#void vertex() {
-	#// Called for every vertex the material is visible on.
-#}
-#
-#void fragment() {
-	#COLOR.r += 0.1;
-#}
-#"""
-	#project.passes[1].pass_name = "Green"
-	#project.passes[1].shader.code = """
-#shader_type canvas_item;
-#
-#uniform float fThing;
-#uniform int iThing;
-#
-#void vertex() {
-	#// Called for every vertex the material is visible on.
-#}
-#
-#void fragment() {
-	#COLOR.g += 0.1;
-#}
-#"""
+	#project = Project.load_from_file("user://default.project")
+	project.passes.append(ShaderPass.new())
+	project.passes.append(ShaderPass.new())
+	project.passes[0].pass_name = "Default"
+	project.passes[0].shader.code = """
+shader_type canvas_item;
+
+uniform float fThing;
+uniform vec4 cThing;
+
+void vertex() {
+	// Called for every vertex the material is visible on.
+}
+
+void fragment() {
+	COLOR.r += 0.1;
+}
+"""
+	project.passes[1].pass_name = "Green"
+	project.passes[1].shader.code = """
+shader_type canvas_item;
+
+uniform float fThing;
+uniform int iThing;
+
+void vertex() {
+	// Called for every vertex the material is visible on.
+}
+
+void fragment() {
+	COLOR.g += 0.1;
+}
+"""
 	update_pass_viewports()
 	update_pass_displays()
 	update_code_editors()

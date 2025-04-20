@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://b4cy3jnrwpmvu"]
+[gd_scene load_steps=7 format=3 uid="uid://b4cy3jnrwpmvu"]
 
 [ext_resource type="Script" uid="uid://bi3adbp54hk6s" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://cqwghyh5lewfh" path="res://shader_editor.tscn" id="2_1bvp3"]
+[ext_resource type="Image" uid="uid://bynntjpnatjc0" path="res://fatguy4k.jpg" id="2_lquwl"]
 [ext_resource type="PackedScene" uid="uid://byajjnj7jbphm" path="res://shader_pass_display.tscn" id="3_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://105n2kf8d3gu" path="res://shader_pass_viewport.tscn" id="4_1bvp3"]
 
@@ -16,6 +17,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ig7tw")
+base_image = ExtResource("2_lquwl")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
