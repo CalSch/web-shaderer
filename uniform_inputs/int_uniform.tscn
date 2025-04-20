@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmmhwaq5fg6jt"]
+
+[ext_resource type="Script" uid="uid://kh052f6omjke" path="res://uniform_inputs/int_uniform.gd" id="1_jn0jt"]
+
+[node name="IntUniform" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jn0jt")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "pass/uniform"
+
+[node name="SpinBox" type="SpinBox" parent="."]
+layout_mode = 2
+size_flags_horizontal = 10
+rounded = true
+allow_greater = true
+allow_lesser = true
+
+[connection signal="value_changed" from="SpinBox" to="." method="_on_spin_box_value_changed"]

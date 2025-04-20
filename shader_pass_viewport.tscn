@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://105n2kf8d3gu"]
+
+[ext_resource type="Texture2D" uid="uid://cbu43agct4ieq" path="res://icon.svg" id="1_vsnvf"]
+[ext_resource type="Script" uid="uid://djkq4row4dwd3" path="res://shader_pass_viewport.gd" id="1_wp2dw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wp2dw"]
+
+[node name="ShaderPassViewport" type="SubViewport"]
+script = ExtResource("1_wp2dw")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_wp2dw")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_vsnvf")
+expand_mode = 2

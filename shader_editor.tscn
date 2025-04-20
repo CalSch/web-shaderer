@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://cqwghyh5lewfh"]
+
+[ext_resource type="Script" uid="uid://1ts3dg0s8elh" path="res://shader_editor.gd" id="1_15ymv"]
+
+[sub_resource type="SystemFont" id="SystemFont_7dm0k"]
+font_names = PackedStringArray("Monospace")
+subpixel_positioning = 0
+
+[node name="ShaderEditor" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_15ymv")
+metadata/_tab_index = 0
+
+[node name="CodeEdit" type="CodeEdit" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme_override_fonts/font = SubResource("SystemFont_7dm0k")
+text = "void main() {
+	FRAG_COLOR = vec4(1.0, 0.0, 1.0, 1.0);
+}"
+placeholder_text = "Shader code here"
+metadata/_tab_index = 0

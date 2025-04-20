@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://byajjnj7jbphm"]
+
+[ext_resource type="Script" uid="uid://c14kbvqxh245a" path="res://shader_pass_display.gd" id="1_1hwrr"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_w5i14"]
+
+[node name="TextureRect" type="TextureRect"]
+custom_minimum_size = Vector2(32, 32)
+offset_right = 648.0
+offset_bottom = 21.19
+texture = SubResource("ViewportTexture_w5i14")
+stretch_mode = 4
+script = ExtResource("1_1hwrr")

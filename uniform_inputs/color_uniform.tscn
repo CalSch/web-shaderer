@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgj4eatoahorl"]
+
+[ext_resource type="Script" uid="uid://b1fepd5spf8kq" path="res://uniform_inputs/color_uniform.gd" id="1_k823v"]
+
+[node name="ColorUniform" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_k823v")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "pass/uniform"
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="."]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+
+[connection signal="color_changed" from="ColorPickerButton" to="." method="_on_color_picker_button_color_changed"]
