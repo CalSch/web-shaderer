@@ -14,6 +14,14 @@ var uniforms: Array[BaseUniform] = []
 
 @export var base_image: Image
 
+enum RenameType {
+	None,
+	PassName,
+	ProjectName
+}
+
+var thing_to_rename: RenameType = RenameType.None
+
 func update_pass_viewports():
 	print("updating viewports")
 	for ch in $Viewports.get_children():
@@ -57,7 +65,11 @@ func update_code_editors():
 		editor.name = sh.pass_name
 		editor.link_to_pass(sh)
 		editor.changed.connect(_on_editor_change)
+		editor.changed.emit()
 		editors_node.add_child(editor)
+	var add_button = Control.new()
+	add_button.name = "+"
+	editors_node.add_child(add_button)
 
 func _on_editor_change():
 	update_uniforms()
@@ -109,6 +121,10 @@ func update_uniforms():
 			uniforms.append(node)
 			
 
+func update_project_menu():
+	print('updating proect menu')
+	$VBoxContainer/MenuBar/Project.set_item_text(0,"Project: '%s'" % project.project_name)
+
 func _ready() -> void:
 	#project = Project.load_from_file("user://default.project")
 	project.passes.append(ShaderPass.new())
@@ -147,14 +163,41 @@ void fragment() {
 	update_pass_displays()
 	update_code_editors()
 	update_uniforms()
+	update_project_menu()
 	
 
 func _on_project_menu_id_pressed(id: int) -> void:
-	if id == 0:
+	if id == 0: # Save
 		project.save_to_file()
-	elif id == 1:
+	elif id == 1: # Open
 		$OpenFileDialog.show()
-		#project = Project.load_from_file()
+	elif id == 2: # Clicked on the project name (rename it)
+		thing_to_rename = RenameType.ProjectName
+		$RenameDialog/HBoxContainer/LineEdit.text = project.project_name
+		$RenameDialog.show()
+		
+func _on_pass_menu_id_pressed(id: int) -> void:
+	if id == 0: # Rename
+		thing_to_rename = RenameType.PassName
+		$RenameDialog/HBoxContainer/LineEdit.text = get_selected_pass().pass_name
+		$RenameDialog.show()
+	elif id == 1: # Duplicate
+		var current = get_selected_pass()
+		var new = ShaderPass.new()
+		new.pass_name = current.pass_name + " (copy)"
+		new.shader.code = current.shader.code
+		new.params = current.params
+		project.passes.insert(editors_node.current_tab + 1, new)
+		update_pass_viewports()
+		update_pass_displays()
+		update_code_editors()
+		update_uniforms()
+	elif id == 2: # Delete
+		project.passes.remove_at(editors_node.current_tab)
+		update_pass_viewports()
+		update_pass_displays()
+		update_code_editors()
+		update_uniforms()
 
 
 func _on_open_file_dialog_file_selected(path: String) -> void:
@@ -162,3 +205,45 @@ func _on_open_file_dialog_file_selected(path: String) -> void:
 	update_pass_viewports()
 	update_pass_displays()
 	update_code_editors()
+
+
+func _on_editors_tab_clicked(idx: int) -> void:
+	var tab = editors_node.get_child(idx)
+	if tab.name == "+":
+		var sp = ShaderPass.new()
+		sp.shader.code = """shader_type canvas_item;
+
+void vertex() {
+
+}
+
+void fragment() {
+	
+}
+"""
+		sp.pass_name = get_new_pass_name()
+		project.passes.append(sp)
+		update_pass_viewports()
+		update_pass_displays()
+		update_code_editors()
+
+func get_new_pass_name():
+	return "new pass" # TODO: make a *unique* name
+
+func get_selected_pass() -> ShaderPass:
+	return project.passes[editors_node.current_tab]
+
+
+func _on_rename_dialog_confirmed() -> void:
+	var text = $RenameDialog/HBoxContainer/LineEdit.text
+	# TODO: validate input
+	if thing_to_rename == RenameType.PassName:
+		get_selected_pass().pass_name = text
+		
+		update_pass_viewports()
+		update_pass_displays()
+		update_code_editors()
+		update_uniforms()
+	elif thing_to_rename == RenameType.ProjectName:
+		project.project_name = text
+		update_project_menu()

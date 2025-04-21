@@ -17,7 +17,7 @@ text = "pass/uniform"
 [node name="SpinBox" type="SpinBox" parent="."]
 layout_mode = 2
 size_flags_horizontal = 10
-step = 0.0
+step = 0.001
 allow_greater = true
 allow_lesser = true
 

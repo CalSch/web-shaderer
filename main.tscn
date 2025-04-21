@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b4cy3jnrwpmvu"]
+[gd_scene load_steps=8 format=3 uid="uid://b4cy3jnrwpmvu"]
 
 [ext_resource type="Script" uid="uid://bi3adbp54hk6s" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://cqwghyh5lewfh" path="res://shader_editor.tscn" id="2_1bvp3"]
@@ -8,6 +8,8 @@
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_1bvp3"]
 viewport_path = NodePath("/root/Main/Viewports/ShaderPassViewport")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lquwl"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -31,11 +33,26 @@ grow_vertical = 2
 layout_mode = 2
 
 [node name="Project" type="PopupMenu" parent="VBoxContainer/MenuBar"]
-item_count = 2
-item_0/text = "Save"
+size = Vector2i(134, 116)
+item_count = 4
+item_0/text = "[project name]"
+item_0/id = 2
+item_1/id = 3
+item_1/separator = true
+item_2/text = "Save"
+item_2/id = 0
+item_3/text = "Load"
+item_3/id = 1
+
+[node name="Pass" type="PopupMenu" parent="VBoxContainer/MenuBar"]
+auto_translate_mode = 1
+item_count = 3
+item_0/text = "Rename"
 item_0/id = 0
-item_1/text = "Load"
+item_1/text = "Duplicate"
 item_1/id = 1
+item_2/text = "Delete"
+item_2/id = 2
 
 [node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -105,9 +122,38 @@ metadata/_tab_index = 0
 
 [node name="OpenFileDialog" type="FileDialog" parent="."]
 title = "Open a File"
+initial_position = 2
 ok_button_text = "Open"
 file_mode = 0
 access = 1
 
+[node name="RenameDialog" type="ConfirmationDialog" parent="."]
+initial_position = 2
+size = Vector2i(383, 100)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RenameDialog"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 375.0
+offset_bottom = 51.0
+
+[node name="Label" type="Label" parent="RenameDialog/HBoxContainer"]
+layout_mode = 2
+text = "New Name"
+
+[node name="VSeparator" type="VSeparator" parent="RenameDialog/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 33
+theme_override_styles/separator = SubResource("StyleBoxEmpty_lquwl")
+
+[node name="LineEdit" type="LineEdit" parent="RenameDialog/HBoxContainer"]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+select_all_on_focus = true
+
 [connection signal="id_pressed" from="VBoxContainer/MenuBar/Project" to="." method="_on_project_menu_id_pressed"]
+[connection signal="id_pressed" from="VBoxContainer/MenuBar/Pass" to="." method="_on_pass_menu_id_pressed"]
+[connection signal="tab_clicked" from="VBoxContainer/HSplitContainer/PanelContainer/VBoxContainer/Editors" to="." method="_on_editors_tab_clicked"]
 [connection signal="file_selected" from="OpenFileDialog" to="." method="_on_open_file_dialog_file_selected"]
+[connection signal="confirmed" from="RenameDialog" to="." method="_on_rename_dialog_confirmed"]
