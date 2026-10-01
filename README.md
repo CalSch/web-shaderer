@@ -3,6 +3,10 @@ Lets you do shaders in the web.
 The 'web' part is important because it means we can't use compute shaders ([like what Acerola is doing](https://www.youtube.com/watch?v=5y1Oin7CcI4)) or anything using `RenderingDevice`'s because you just can't do that in the web.
 Because of this, I use `SubViewport`'s with `TextureRect`'s inside (either with an `ImageTexture` or a `ViewportTexture` to the previous pass) and put a shader material on them to apply a GLSL shader.
 
+# [do it here!](https://calschwick.net/web-shaderer/export/web/web%20shaderer.html)
+so im kinda dumb and committed the web export to git, but that means it is automatically part of my website! this was definitely intentional.
+
+## screenshot
 ![A screenshot of the app](https://github.com/user-attachments/assets/ef5da55f-259a-4a14-9bc5-087ce8dba086)
 
 
